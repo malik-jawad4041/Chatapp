@@ -12,6 +12,7 @@ class ChatRoomDTO:
         message (str): Content of the chat message.
         receiver (str): Identifier of the message recipient or chat room.
     """
+
     id: str
     time: datetime.datetime
     message: str

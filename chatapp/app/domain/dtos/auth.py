@@ -9,5 +9,6 @@ class PayloadDTO:
         id (str): Unique identifier of the user.
         username (str): Username of the user.
     """
+
     id: str
     username: str

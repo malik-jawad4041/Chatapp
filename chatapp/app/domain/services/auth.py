@@ -29,7 +29,6 @@ class IAuthService(ABC):
         Returns:
             str: Encoded JWT token as a string.
         """
-        ...
 
     @staticmethod
     @abstractmethod
@@ -47,4 +46,3 @@ class IAuthService(ABC):
         Raises:
             Exception: If token is invalid or expired.
         """
-        ...

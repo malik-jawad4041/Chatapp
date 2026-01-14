@@ -13,6 +13,7 @@ class UsersDTO:
         password (str): Hashed password of the user.
         roomid (str): Identifier for the chat room the user belongs to.
     """
+
     id: int
     time: datetime.datetime
     username: str
