@@ -1,13 +1,13 @@
+from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
-from pydantic import computed_field
+
 
 class JwtSettings(BaseSettings):
     secret_key: str
-    algorithm : str
+    algorithm: str
 
     model_config = SettingsConfigDict(env_file=".env.jwt")
-
 
 
 class DBSettings(BaseSettings):
