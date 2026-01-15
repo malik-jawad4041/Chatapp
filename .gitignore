@@ -1,3 +1,4 @@
 .env.jwt
 .env.db
 **/__pycache__
+chatapp/__pycache__
