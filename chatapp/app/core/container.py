@@ -30,7 +30,6 @@ class Container:
             jwt (JwtSettings): JWT configuration.
             db (DBSettings): Database configuration.
         """
-        self.jwt = jwt
         self.db = db
         self._engine = create_async_engine(**db.sqlalchemy_engine_props)
         self._session = async_sessionmaker(bind=self._engine, expire_on_commit=False)

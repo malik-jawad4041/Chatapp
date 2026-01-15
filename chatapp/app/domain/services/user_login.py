@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from chatapp.app.domain.dtos.user_login import LoginDTO
+from .....chatapp.app.domain.dtos.user_login import LoginDTO
 
 
 class ILoginService(ABC):

@@ -7,9 +7,9 @@ and to add a new user.
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from chatapp.app.domain.dtos.user_login import LoginDTO
-from chatapp.app.domain.repositories.user_login import IUserLoginRepository
-from chatapp.app.infrastructure.db_modals import Users
+from .....chatapp.app.domain.dtos.user_login import LoginDTO
+from .....chatapp.app.domain.repositories.user_login import IUserLoginRepository
+from .....chatapp.app.infrastructure.db_modals import Users
 
 from ...infrastructure import db_modals
 from ...infrastructure.mappers.user_login import Login

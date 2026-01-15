@@ -4,7 +4,7 @@ Provides methods to transform data between the database representation
 and the application's data transfer objects.
 """
 
-from chatapp.app.domain.mapper import Mapper
+from .....chatapp.app.domain.mapper import Mapper
 
 from ...domain.dtos.Chatroom import ChatRoomDTO
 from ..db_modals import Room

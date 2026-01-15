@@ -7,10 +7,10 @@ from datetime import datetime, timedelta
 
 import jwt
 
-from chatapp.app.core.exceptions import WebsocketUnauthorized
-from chatapp.app.domain.dtos.auth import PayloadDTO
-from chatapp.app.domain.dtos.user_login import LoginDTO
-from chatapp.app.domain.services.auth import IAuthService
+from ....chatapp.app.core.exceptions import WebsocketUnauthorized
+from ....chatapp.app.domain.dtos.auth import PayloadDTO
+from ....chatapp.app.domain.dtos.user_login import LoginDTO
+from ....chatapp.app.domain.services.auth import IAuthService
 
 
 class AuthService(IAuthService):
