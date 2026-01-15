@@ -18,7 +18,8 @@ from chatapp.app.domain.services.websocket_connection import IWSService
 from chatapp.app.services.auth import AuthService
 from chatapp.app.services.user_login import LoginService
 from chatapp.app.services.websocket_connection import WSService
-
+from redis import Redis
+from typing import Union
 
 class Container:
     """Container for application services and database sessions."""
@@ -30,6 +31,8 @@ class Container:
             jwt (JwtSettings): JWT configuration.
             db (DBSettings): Database configuration.
         """
+        self.redis : Union[Redis, None] = None
+        self.jwt = jwt
         self.db = db
         self._engine = create_async_engine(**db.sqlalchemy_engine_props)
         self._session = async_sessionmaker(bind=self._engine, expire_on_commit=False)
@@ -74,3 +77,4 @@ class Container:
 
 container = Container(get_jwt_settings(), get_postgres_settings())
 """Singleton container instance with cached JWT and DB settings."""
+

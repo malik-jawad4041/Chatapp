@@ -11,7 +11,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from chatapp.app.domain.services.websocket_connection import IWSService
 from chatapp.app.infrastructure.repositories.websocket_connection import \
     WebSocketEndpoint
-from chatapp.app.services.auth import AuthService
+from ....chatapp.app.services.auth import AuthService
+from redis.asyncio import Redis
+from chatapp.app.infrastructure.redis.wsendpoint import RepoRedis
 
 
 class WSService(IWSService):
@@ -21,8 +23,6 @@ class WSService(IWSService):
     verify tokens, send messages, and remove connections.
     """
 
-    connection = []
-
     @staticmethod
     async def jwt_verify_and_append_list(
         session: AsyncSession,
@@ -30,6 +30,7 @@ class WSService(IWSService):
         secret_key: str,
         algorithm: str,
         websocket: Any,
+        redis : Redis
     ) -> str:
         """Verifies a JWT token, fetches the user's room ID, and adds the client to the connection list.
 
@@ -39,6 +40,7 @@ class WSService(IWSService):
             secret_key (str): Secret key used to decode the token.
             algorithm (str): JWT algorithm for decoding.
             websocket (Any): The WebSocket client instance.
+            redis ( Redis) : The Redis instance to use.
 
         Returns:
             str: The verified user ID from the token payload.
@@ -47,34 +49,43 @@ class WSService(IWSService):
         uid = payload.id
         user = await WebSocketEndpoint.fetch_roomid(session, uid)
         client = {"id": uid, "clt": websocket, "room_id": user.roomid}
-        WSService.connection.append(client)
+        await RepoRedis.store_data(client, redis)
         return payload.id
 
     @staticmethod
-    async def send_message(session: AsyncSession, uid: str, message: str):
+    async def send_message(
+            session: AsyncSession,
+            uid: str,
+            message: str ,
+            redis : Redis
+    ):
         """Sends a message to all WebSocket clients in the same room and stores it in the database.
 
         Args:
             session (AsyncSession): SQLAlchemy async session for DB operations.
             uid (str): ID of the user sending the message.
+            redis (Redis) : Redis connection object for the user.
             message (str): The message content to send.
+
         """
         # retrieve the room_id from db
         # add the message in the db
         # send message to user if it is online
         user = await WebSocketEndpoint.fetch_roomid(session, uid)
         await WebSocketEndpoint.add_message(session, uid, message, user.roomid)
-        for i in WSService.connection:
-            if i["room_id"] == user.roomid:
-                await i["clt"].send_json(message)
+        data = await RepoRedis.fetch_data(uid, redis)
+        if data:
+            await data["clt"].send_json(message)
+
 
     @staticmethod
-    async def remove_from_list(websocket: Any):
+    async def remove_from_list(uid : str , redis : Redis):
         """Removes a WebSocket client from the active connection list.
 
         Args:
-            websocket (Any): The WebSocket client instance to remove.
+            uid (str): ID of the user sending the message.
+            redis (Redis) : Redis connection object for the user.
         """
-        for i in WSService.connection:
-            if i["clt"] == websocket:
-                WSService.connection.remove(i)
+
+        await RepoRedis.remove_data(uid,redis)
+
