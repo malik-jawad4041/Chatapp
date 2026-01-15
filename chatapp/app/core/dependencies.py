@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from chatapp.app.core.config import get_jwt_settings
 from chatapp.app.core.settings.base import JwtSettings
 from chatapp.app.services.user_login import LoginService
-
+from redis import Redis
 from services.auth import AuthService
 from services.websocket_connection import WSService
 from container import container
@@ -16,3 +16,5 @@ userLogin = Annotated[LoginService, Depends(container.user_login)]
 jwt = Annotated[JwtSettings, Depends(get_jwt_settings)]
 Auth = Annotated[AuthService, Depends(container.auth)]
 WS = Annotated[WSService, Depends(container.websocket_conn)]
+redis = Annotated[Redis, Depends(container.redis)]
+
