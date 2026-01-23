@@ -1,8 +1,10 @@
 import json
-from typing import Optional, Dict
-from redis.asyncio import Redis
-from proj.chatapp.app.infrastructure.Redis import WSRedis
 from typing import Dict, Optional
+
+from redis.asyncio import Redis
+
+from chatapp.app.infrastructure.Redis import WSRedis
+
 
 class RepoRedis(WSRedis):
     """

@@ -4,10 +4,10 @@ Provides methods to transform data between the database representation
 and the application's data transfer objects.
 """
 
-from .....chatapp.app.domain.mapper import Mapper
+from chatapp.app.domain.mapper import Mapper
 
-from ...domain.dtos.Users import UsersDTO
-from ..db_modals import Users
+from chatapp.app.domain.dtos.Users import UsersDTO
+from chatapp.app.infrastructure.db_modals import Users
 
 
 class Login(Mapper[Users, UsersDTO]):

@@ -6,14 +6,15 @@ and connection removal for WebSocket clients.
 
 from typing import Any
 
+from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from chatapp.app.domain.services.websocket_connection import IWSService
+from chatapp.app.infrastructure.redis.wsendpoint import RepoRedis
 from chatapp.app.infrastructure.repositories.websocket_connection import \
     WebSocketEndpoint
-from ....chatapp.app.services.auth import AuthService
-from redis.asyncio import Redis
-from chatapp.app.infrastructure.redis.wsendpoint import RepoRedis
+
+from chatapp.app.services.auth import AuthService
 
 
 class WSService(IWSService):
@@ -30,7 +31,6 @@ class WSService(IWSService):
         secret_key: str,
         algorithm: str,
         websocket: Any,
-        redis : Redis
     ) -> str:
         """Verifies a JWT token, fetches the user's room ID, and adds the client to the connection list.
 
@@ -40,7 +40,6 @@ class WSService(IWSService):
             secret_key (str): Secret key used to decode the token.
             algorithm (str): JWT algorithm for decoding.
             websocket (Any): The WebSocket client instance.
-            redis ( Redis) : The Redis instance to use.
 
         Returns:
             str: The verified user ID from the token payload.
@@ -49,16 +48,11 @@ class WSService(IWSService):
         uid = payload.id
         user = await WebSocketEndpoint.fetch_roomid(session, uid)
         client = {"id": uid, "clt": websocket, "room_id": user.roomid}
-        await RepoRedis.store_data(client, redis)
+        #await RepoRedis.store_data(client, redis)
         return payload.id
 
     @staticmethod
-    async def send_message(
-            session: AsyncSession,
-            uid: str,
-            message: str ,
-            redis : Redis
-    ):
+    async def send_message(session: AsyncSession, uid: str, message: str, redis: Redis):
         """Sends a message to all WebSocket clients in the same room and stores it in the database.
 
         Args:
@@ -77,9 +71,8 @@ class WSService(IWSService):
         if data:
             await data["clt"].send_json(message)
 
-
     @staticmethod
-    async def remove_from_list(uid : str , redis : Redis):
+    async def remove_from_list(uid: str, redis: Redis):
         """Removes a WebSocket client from the active connection list.
 
         Args:
@@ -87,5 +80,4 @@ class WSService(IWSService):
             redis (Redis) : Redis connection object for the user.
         """
 
-        await RepoRedis.remove_data(uid,redis)
-
+        await RepoRedis.remove_data(uid, redis)

@@ -1,3 +1,4 @@
 .env.jwt
 .env.db
+.env.key
 **/__pycache__

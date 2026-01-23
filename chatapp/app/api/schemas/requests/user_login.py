@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from ......chatapp.app.domain.dtos import user_login
+from chatapp.app.domain.dtos import user_login
 
 class Login(BaseModel):
     """Pydantic model representing user login credentials."""

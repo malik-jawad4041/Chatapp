@@ -1,8 +1,8 @@
 from datetime import datetime
-
 from sqlalchemy import DateTime, String
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlalchemy.orm import Mapped, declarative_base, mapped_column
+
 
 Base = declarative_base()
 

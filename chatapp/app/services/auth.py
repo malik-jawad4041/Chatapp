@@ -7,10 +7,10 @@ from datetime import datetime, timedelta
 
 import jwt
 
-from ....chatapp.app.core.exceptions import WebsocketUnauthorized
-from ....chatapp.app.domain.dtos.auth import PayloadDTO
-from ....chatapp.app.domain.dtos.user_login import LoginDTO
-from ....chatapp.app.domain.services.auth import IAuthService
+from chatapp.app.core.exceptions import WebsocketUnauthorized
+from chatapp.app.domain.dtos.auth import PayloadDTO
+from chatapp.app.domain.dtos.user_login import LoginDTO
+from chatapp.app.domain.services.auth import IAuthService
 
 
 class AuthService(IAuthService):
@@ -35,9 +35,9 @@ class AuthService(IAuthService):
             str: The encoded JWT token with a 30-minute expiration.
         """
         payload = {
-            "id": uid,
+            "sub": uid,
             "username": body.username,
-            "exp": datetime.now() + timedelta(minutes=30),  # token expires in 30 mins
+            "exp": datetime.now() + timedelta(minutes=60),  # token expires in 30 mins
         }
         token = jwt.encode(payload, secret_key, algorithm=algorithm)
         return token

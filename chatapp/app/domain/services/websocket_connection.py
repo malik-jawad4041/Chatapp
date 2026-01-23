@@ -21,8 +21,6 @@ class IWSService(ABC):
         secret_key: str,
         algorithm: str,
         websocket: Any,
-        redis: Redis,
-
     ) -> str:
         """Verify JWT token and append the user to the active connection list.
 
@@ -45,11 +43,11 @@ class IWSService(ABC):
     @staticmethod
     @abstractmethod
     async def send_message(
-            session: AsyncSession,
-            uid: str,
-            message: str,
-            redis: Redis,
-):
+        session: AsyncSession,
+        uid: str,
+        message: str,
+        redis: Redis,
+    ):
         """Send a message to all connected clients in the user's room.
 
         Args:
@@ -65,10 +63,10 @@ class IWSService(ABC):
 
     @staticmethod
     @abstractmethod
-    async def remove_from_list(uid : str , redis : Redis):
+    async def remove_from_list(uid: str, redis: Redis):
         """Remove a WebSocket connection from the active connection list.
 
         Args:
             uid (str): User ID of the sender.
-            redis (Redis): Redis connection object for the user.        """
+            redis (Redis): Redis connection object for the user."""
         ...

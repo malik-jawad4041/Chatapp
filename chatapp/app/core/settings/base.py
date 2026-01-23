@@ -9,6 +9,10 @@ class JwtSettings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env.jwt")
 
+class APISettings(BaseSettings):
+    secret_key: str
+    model_config = SettingsConfigDict(env_file=".env.key", case_sensitive=False)
+
 
 class DBSettings(BaseSettings):
     postgres_user: str

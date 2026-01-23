@@ -5,9 +5,9 @@ Defines endpoints for logging in users and generating JWT tokens.
 
 from fastapi import APIRouter
 
-from .....chatapp.app.api.schemas.requests.user_login import Login
-from .....chatapp.app.api.schemas.responses.user_login import LoginToken
-from .....chatapp.app.core.dependencies import DBSession, jwt, userLogin
+from chatapp.app.api.schemas.requests.user_login import Login
+from chatapp.app.api.schemas.responses.user_login import LoginToken
+from chatapp.app.core.dependencies import DBSession, jwt, userLogin
 
 router = APIRouter()
 

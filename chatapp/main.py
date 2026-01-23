@@ -1,8 +1,11 @@
-from fastapi import FastAPI
 from contextlib import asynccontextmanager
+import socketio
+from fastapi import FastAPI
+from redis.asyncio import Redis
+
 from chatapp.app.api.router import routes
 from chatapp.app.core.container import container
-from redis.asyncio import Redis
+
 
 @asynccontextmanager
 async def lifespan(application: FastAPI):
@@ -13,8 +16,17 @@ async def lifespan(application: FastAPI):
 
 
 def create_app() -> FastAPI:
+
     application = FastAPI(lifespan=lifespan)
     application.include_router(router=routes)
+
+    mgr = socketio.AsyncRedisManager("url")
+
+    container.sio = socketio.AsyncServer(async_mode="asgi",client_manager=mgr)
+
+    socket_app = socketio.ASGIApp(container.sio)  # Socket.IO as ASGI app
+
+    application.mount("/ws", socket_app)
 
     return application
 
