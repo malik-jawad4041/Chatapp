@@ -9,11 +9,11 @@ import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..domain.dtos.user_login import LoginDTO
-from ..domain.dtos.Users import UsersDTO
-from ..domain.services.user_login import ILoginService
-from ..infrastructure.repositories.user_login import UserLoginRepository
-from ..services.auth import AuthService
+from chatapp.app.domain.dtos.user_login import LoginDTO
+from chatapp.app.domain.dtos.Users import UsersDTO
+from chatapp.app.domain.services.user_login import ILoginService
+from chatapp.app.infrastructure.repositories.user_login import UserLoginRepository
+from chatapp.app.services.auth import AuthService
 
 
 class LoginService(ILoginService):

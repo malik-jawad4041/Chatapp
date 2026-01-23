@@ -4,10 +4,10 @@ Provides methods to transform data between the database representation
 and the application's data transfer objects.
 """
 
-from .....chatapp.app.domain.mapper import Mapper
+from chatapp.app.domain.mapper import Mapper
 
-from ...domain.dtos.Chatroom import ChatRoomDTO
-from ..db_modals import Room
+from chatapp.app.domain.dtos.Chatroom import ChatRoomDTO
+from chatapp.app.infrastructure.db_modals import Room
 
 
 class WSMapper(Mapper[Room, ChatRoomDTO]):

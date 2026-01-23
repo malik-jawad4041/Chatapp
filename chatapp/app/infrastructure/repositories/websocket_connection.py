@@ -9,13 +9,13 @@ from datetime import datetime
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .....chatapp.app.domain.dtos.Chatroom import ChatRoomDTO
-from .....chatapp.app.domain.dtos.Users import UsersDTO
-from .....chatapp.app.domain.repositories.websocket_connection import \
+from chatapp.app.domain.dtos.Chatroom import ChatRoomDTO
+from chatapp.app.domain.dtos.Users import UsersDTO
+from chatapp.app.domain.repositories.websocket_connection import \
     IWebSocketEndpoint
-from .....chatapp.app.infrastructure import db_modals
-from .....chatapp.app.infrastructure.mappers.user_login import Login
-from .....chatapp.app.infrastructure.mappers.websocket_connection import WSMapper
+from chatapp.app.infrastructure import db_modals
+from chatapp.app.infrastructure.mappers.user_login import Login
+from chatapp.app.infrastructure.mappers.websocket_connection import WSMapper
 
 
 class WebSocketEndpoint(IWebSocketEndpoint):

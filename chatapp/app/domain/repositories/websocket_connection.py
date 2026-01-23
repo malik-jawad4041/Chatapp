@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .....chatapp.app.domain.dtos.Users import UsersDTO
+from chatapp.app.domain.dtos.Users import UsersDTO
 
 
 class IWebSocketEndpoint(ABC):

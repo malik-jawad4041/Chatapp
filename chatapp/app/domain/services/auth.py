@@ -6,8 +6,8 @@ used for user authentication.
 
 from abc import ABC, abstractmethod
 
-from .....chatapp.app.domain.dtos.auth import PayloadDTO
-from .....chatapp.app.domain.dtos.user_login import LoginDTO
+from chatapp.app.domain.dtos.auth import PayloadDTO
+from chatapp.app.domain.dtos.user_login import LoginDTO
 
 
 class IAuthService(ABC):

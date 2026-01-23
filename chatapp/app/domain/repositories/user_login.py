@@ -4,8 +4,8 @@ from typing import Union
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ..dtos.user_login import LoginDTO
-from ..dtos.Users import UsersDTO
+from chatapp.app.domain.dtos.user_login import LoginDTO
+from chatapp.app.domain.dtos.Users import UsersDTO
 
 
 class IUserLoginRepository(ABC):

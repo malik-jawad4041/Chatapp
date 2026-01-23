@@ -6,6 +6,7 @@ and managing WebSocket connections.
 
 from abc import ABC, abstractmethod
 from typing import Any
+from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -29,6 +30,7 @@ class IWSService(ABC):
             secret_key (str): Secret key used for JWT decoding.
             algorithm (str): Algorithm used for JWT decoding.
             websocket (Any): WebSocket connection object for the user.
+            redis (Any) : Redis connection object for the user.
 
         Returns:
             str: User ID extracted from the token.
@@ -40,12 +42,18 @@ class IWSService(ABC):
 
     @staticmethod
     @abstractmethod
-    async def send_message(session: AsyncSession, uid: str, message: str):
+    async def send_message(
+        session: AsyncSession,
+        uid: str,
+        message: str,
+        redis: Redis,
+    ):
         """Send a message to all connected clients in the user's room.
 
         Args:
             session (AsyncSession): SQLAlchemy async session for database operations.
             uid (str): User ID of the sender.
+            redis (Redis): Redis connection object for the user.
             message (str): Message content to send.
 
         Raises:
@@ -55,10 +63,10 @@ class IWSService(ABC):
 
     @staticmethod
     @abstractmethod
-    async def remove_from_list(websocket: Any):
+    async def remove_from_list(uid: str, redis: Redis):
         """Remove a WebSocket connection from the active connection list.
 
         Args:
-            websocket (Any): WebSocket connection object to remove.
-        """
+            uid (str): User ID of the sender.
+            redis (Redis): Redis connection object for the user."""
         ...
